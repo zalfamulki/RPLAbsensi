@@ -8,28 +8,60 @@
 </head>
 <body>
     <div class="splash-screen">
+        <div class="animated-bg">
+            <div class="bubble bubble-1"></div>
+            <div class="bubble bubble-2"></div>
+            <div class="bubble bubble-3"></div>
+            <div class="bubble bubble-4"></div>
+            <div class="bubble bubble-5"></div>
+        </div>
+        
         <div class="splash-content">
             <div class="logo-container">
-                <h1 class="app-title">UnivSync Attend</h1>
+                <div class="logo-pulse">
+                    <svg width="80" height="80" viewBox="0 0 80 80" class="logo-icon">
+                        <circle cx="40" cy="40" r="35" fill="white" opacity="0.2"/>
+                        <path d="M40 15 L50 25 L60 15 L60 35 L50 45 L60 55 L60 65 L50 55 L40 65 L30 55 L20 65 L20 55 L30 45 L20 35 L20 15 L30 25 L40 15 Z" fill="white"/>
+                    </svg>
+                </div>
+                <h1 class="app-title fade-in">UnivSync Attend</h1>
             </div>
-            <div class="splash-illustration">
-                <svg width="200" height="200" viewBox="0 0 200 200">
-                    <circle cx="100" cy="60" r="25" fill="#4F46E5"/>
-                    <rect x="80" y="90" width="40" height="60" rx="5" fill="#4F46E5"/>
-                    <circle cx="60" cy="60" r="20" fill="#818CF8"/>
-                    <rect x="45" y="85" width="30" height="50" rx="5" fill="#818CF8"/>
-                    <circle cx="140" cy="60" r="20" fill="#818CF8"/>
-                    <rect x="125" y="85" width="30" height="50" rx="5" fill="#818CF8"/>
+            
+            <div class="splash-illustration slide-up">
+                <svg width="250" height="200" viewBox="0 0 250 200">
+                    <g class="person person-1">
+                        <circle cx="80" cy="70" r="28" fill="#FFFFFF"/>
+                        <rect x="58" y="100" width="44" height="70" rx="8" fill="#FFFFFF"/>
+                    </g>
+                    <g class="person person-2">
+                        <circle cx="125" cy="60" r="32" fill="#FFFFFF"/>
+                        <rect x="100" y="95" width="50" height="80" rx="8" fill="#FFFFFF"/>
+                    </g>
+                    <g class="person person-3">
+                        <circle cx="170" cy="70" r="28" fill="#FFFFFF"/>
+                        <rect x="148" y="100" width="44" height="70" rx="8" fill="#FFFFFF"/>
+                    </g>
                 </svg>
             </div>
-            <p class="splash-tagline">Sistem Absensi Digital</p>
+            
+            <div class="loading-container">
+                <div class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <p class="splash-tagline">Sistem Absensi Digital Universitas</p>
+            </div>
         </div>
     </div>
     
     <script>
         setTimeout(() => {
-            window.location.href = 'login.html';
-        }, 2000);
+            document.querySelector('.splash-screen').classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 500);
+        }, 2500);
     </script>
 </body>
 </html>
