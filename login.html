@@ -22,57 +22,11 @@
                 <p class="app-subtitle">Selamat Datang!</p>
             </div>
             
-            <h2 class="login-title">Login Sebagai</h2>
-            
-            <!-- Role Selection -->
-            <div class="role-selection" id="roleSelection">
-                <div class="role-card" data-role="mahasiswa">
-                    <div class="role-icon">
-                        <svg width="50" height="50" viewBox="0 0 50 50">
-                            <circle cx="25" cy="15" r="10" fill="currentColor"/>
-                            <path d="M10 40 C10 30 15 25 25 25 C35 25 40 30 40 40" fill="currentColor"/>
-                            <path d="M15 20 L25 15 L35 20" stroke="currentColor" fill="none" stroke-width="2"/>
-                        </svg>
-                    </div>
-                    <h3>Mahasiswa</h3>
-                    <p>Scan QR untuk absensi</p>
-                    <div class="role-check">
-                        <svg width="24" height="24" viewBox="0 0 24 24">
-                            <path d="M20 6L9 17l-5-5" stroke="white" fill="none" stroke-width="2"/>
-                        </svg>
-                    </div>
-                </div>
-                
-                <div class="role-card" data-role="dosen">
-                    <div class="role-icon">
-                        <svg width="50" height="50" viewBox="0 0 50 50">
-                            <circle cx="25" cy="15" r="10" fill="currentColor"/>
-                            <path d="M10 40 C10 30 15 25 25 25 C35 25 40 30 40 40" fill="currentColor"/>
-                            <rect x="18" y="5" width="14" height="3" rx="1.5" fill="currentColor"/>
-                        </svg>
-                    </div>
-                    <h3>Dosen</h3>
-                    <p>Generate QR untuk kelas</p>
-                    <div class="role-check">
-                        <svg width="24" height="24" viewBox="0 0 24 24">
-                            <path d="M20 6L9 17l-5-5" stroke="white" fill="none" stroke-width="2"/>
-                        </svg>
-                    </div>
-                </div>
-            </div>
+           
             
             <!-- Login Form (Hidden initially) -->
-            <form id="loginForm" class="login-form" style="display: none;">
-                <button type="button" class="back-to-role" id="backToRole">
-                    <svg width="20" height="20" viewBox="0 0 20 20">
-                        <path d="M15 10H5M10 15l-5-5 5-5" stroke="currentColor" fill="none" stroke-width="2"/>
-                    </svg>
-                    Kembali
-                </button>
+            <form id="loginForm" class="login-form" >
                 
-                <div class="selected-role-info">
-                    <span class="role-badge" id="roleBadge"></span>
-                </div>
                 
                 <div class="form-group">
                     <label for="email">
@@ -82,7 +36,7 @@
                         </svg>
                         Email
                     </label>
-                    <input type="email" id="email" name="email" required placeholder="nama@email.com">
+                    <input type="email" id="email" name="email" required placeholder="@email.com">
                 </div>
                 
                 <div class="form-group">
@@ -109,7 +63,7 @@
                         <input type="checkbox" id="rememberMe">
                         <span>Ingat Saya</span>
                     </label>
-                    <a href="#" class="forgot-link">Lupa Password?</a>
+                    <a href="forgot-password.html" class="forgot-link">Lupa Password?</a>
                 </div>
                 
                 <button type="submit" class="btn btn-primary btn-with-icon">

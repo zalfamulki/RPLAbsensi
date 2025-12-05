@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Absensi - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="dashboard-admin.html">Sistem Akademik</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-admin.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="kelola.html">Kelola Data</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Laporan Absensi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="logout()">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3><i class="fas fa-clipboard-list me-2"></i>Laporan Absensi Mahasiswa</h3>
+            <button class="btn btn-success" onclick="window.print()"><i class="fas fa-print me-2"></i>Cetak PDF</button>
+        </div>
+
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-white fw-bold">Filter Data</div>
+            <div class="card-body">
+                <form id="filterForm" class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Tanggal Mulai</label>
+                        <input type="date" class="form-control" id="tglMulai">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Tanggal Selesai</label>
+                        <input type="date" class="form-control" id="tglSelesai">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Program Studi</label>
+                        <select class="form-select" id="prodi">
+                            <option value="">Semua Prodi</option>
+                            <option value="Teknik Informatika">Teknik Informatika</option>
+                            <option value="Sistem Informasi">Sistem Informasi</option>
+                            <option value="Manajemen">Manajemen</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-primary w-100" onclick="loadLaporan()">
+                            <i class="fas fa-search me-1"></i> Tampilkan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>No</th>
+                                <th>Tanggal</th>
+                                <th>NIM</th>
+                                <th>Nama Mahasiswa</th>
+                                <th>Prodi</th>
+                                <th>Status Kehadiran</th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelLaporan">
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">Silakan pilih filter tanggal terlebih dahulu</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Cek Auth Admin
+       
+        // Fungsi Load Laporan (Simulasi Fetch ke Backend)
+        async function loadLaporan() {
+            const tglMulai = document.getElementById('tglMulai').value;
+            const tglSelesai = document.getElementById('tglSelesai').value;
+            const prodi = document.getElementById('prodi').value;
+            const tbody = document.getElementById('tabelLaporan');
+
+            if(!tglMulai || !tglSelesai) {
+                alert('Harap isi rentang tanggal!');
+                return;
+            }
+
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center">Memuat data...</td></tr>';
+
+            try {
+                // Di sini Anda akan melakukan fetch ke PHP, misal: 'get-laporan.php'
+                // Karena file backend laporan belum diminta, ini simulasi data dummy:
+                
+                // const response = await fetch('api/get-laporan.php', { method: 'POST', body: ... });
+                // const data = await response.json();
+                
+                // SIMULASI DATA DUMMY (Hapus bagian ini jika backend sudah siap)
+                await new Promise(r => setTimeout(r, 500)); // Delay palsu
+                const dataDummy = [
+                    { tgl: '2023-10-01', nim: 'A11.2023.001', nama: 'Budi Santoso', prodi: 'TI', status: 'Hadir', ket: '-' },
+                    { tgl: '2023-10-01', nim: 'A11.2023.002', nama: 'Siti Aminah', prodi: 'TI', status: 'Sakit', ket: 'Surat dokter' },
+                    { tgl: '2023-10-02', nim: 'A11.2023.001', nama: 'Budi Santoso', prodi: 'TI', status: 'Hadir', ket: '-' },
+                ];
+
+                let html = '';
+                dataDummy.forEach((row, index) => {
+                    // Logic pewarnaan badge status
+                    let badgeClass = 'bg-secondary';
+                    if(row.status === 'Hadir') badgeClass = 'bg-success';
+                    if(row.status === 'Sakit') badgeClass = 'bg-warning text-dark';
+                    if(row.status === 'Alpha') badgeClass = 'bg-danger';
+
+                    html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${row.tgl}</td>
+                            <td>${row.nim}</td>
+                            <td>${row.nama}</td>
+                            <td>${row.prodi}</td>
+                            <td><span class="badge ${badgeClass}">${row.status}</span></td>
+                            <td>${row.ket}</td>
+                        </tr>
+                    `;
+                });
+
+                tbody.innerHTML = html;
+
+            } catch (error) {
+                console.error(error);
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center text-danger">Gagal memuat data</td></tr>';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Kelas - UnivSync Attend</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="profile-header">
+            <button class="back-btn" onclick="history.back()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <h1>Kelola Data Kelas</h1>
+        </header>
+
+        <!-- Main Content -->
+        <main class="kelola-main">
+            <!-- Search and Add Section -->
+            <div class="action-bar">
+                <div class="search-box">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                        <circle cx="8" cy="8" r="6"></circle>
+                        <path d="m13 13 6 6"></path>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Cari kelas...">
+                </div>
+                <button class="btn btn-primary" onclick="openAddModal()">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                        <path d="M10 4v12M4 10h12"></path>
+                    </svg>
+                    Tambah
+                </button>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Kode Kelas</th>
+                            <th>Nama Kelas</th>
+                            <th>Mata Kuliah</th>
+                            <th>Dosen</th>
+                            <th>Hari</th>
+                            <th>Jam</th>
+                            <th>Ruangan</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="kelasTable">
+                        <!-- Data akan dimuat dari database -->
+                        <tr>
+                            <td colspan="8" class="text-center">Memuat data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="dashboard-admin.html" class="nav-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                </svg>
+                <span>Home</span>
+            </a>
+            <a href="kelola-data.html" class="nav-item active">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <span>Kelola</span>
+            </a>
+            <a href="laporan.html" class="nav-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                <span>Laporan</span>
+            </a>
+            <a href="profil-admin.html" class="nav-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>Profil</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Modal Tambah/Edit -->
+    <div id="modalForm" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Tambah Kelas</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="kelasForm" class="modal-form">
+                <input type="hidden" id="kelasId" name="id">
+                
+                <div class="form-group">
+                    <label for="kode_kelas">Kode Kelas *</label>
+                    <input type="text" id="kode_kelas" name="kode_kelas" required placeholder="Contoh: IF101A">
+                </div>
+
+                <div class="form-group">
+                    <label for="nama_kelas">Nama Kelas *</label>
+                    <input type="text" id="nama_kelas" name="nama_kelas" required placeholder="Contoh: Kelas A">
+                </div>
+
+                <div class="form-group">
+                    <label for="mata_kuliah">Mata Kuliah *</label>
+                    <input type="text" id="mata_kuliah" name="mata_kuliah" required placeholder="Contoh: Pemrograman Web">
+                </div>
+
+                <div class="form-group">
+                    <label for="dosen">Dosen Pengampu *</label>
+                    <input type="text" id="dosen" name="dosen" required placeholder="Contoh: Dr. Ahmad Hidayat">
+                </div>
+
+                <div class="form-group">
+                    <label for="hari">Hari *</label>
+                    <select id="hari" name="hari" required>
+                        <option value="">Pilih Hari</option>
+                        <option value="Senin">Senin</option>
+                        <option value="Selasa">Selasa</option>
+                        <option value="Rabu">Rabu</option>
+                        <option value="Kamis">Kamis</option>
+                        <option value="Jumat">Jumat</option>
+                        <option value="Sabtu">Sabtu</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="jam_mulai">Jam Mulai *</label>
+                    <input type="time" id="jam_mulai" name="jam_mulai" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="jam_selesai">Jam Selesai *</label>
+                    <input type="time" id="jam_selesai" name="jam_selesai" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ruangan">Ruangan *</label>
+                    <input type="text" id="ruangan" name="ruangan" required placeholder="Contoh: Lab Komputer 1">
+                </div>
+
+                <div class="form-group">
+                    <label for="semester">Semester *</label>
+                    <select id="semester" name="semester" required>
+                        <option value="">Pilih Semester</option>
+                        <option value="1">Semester 1</option>
+                        <option value="2">Semester 2</option>
+                        <option value="3">Semester 3</option>
+                        <option value="4">Semester 4</option>
+                        <option value="5">Semester 5</option>
+                        <option value="6">Semester 6</option>
+                        <option value="7">Semester 7</option>
+                        <option value="8">Semester 8</option>
+                    </select>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal()">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script khusus untuk halaman ini, TANPA script.js yang menyebabkan redirect -->
+    <script>
+        // Cegah redirect otomatis dengan menghapus event listener dari script.js
+        window.addEventListener('DOMContentLoaded', function() {
+            // Stop propagation jika ada script.js yang mencoba redirect
+            window.addEventListener('load', function(e) {
+                e.stopImmediatePropagation();
+            }, true);
+        });
+
+        // Load data kelas
+        function loadKelas() {
+            fetch('api/get-kelas.php')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('kelasTable');
+                    if(data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="8" class="text-center">Tidak ada data</td></tr>';
+                        return;
+                    }
+
+                    tbody.innerHTML = data.map(kelas => `
+                        <tr>
+                            <td>${kelas.kode_kelas}</td>
+                            <td>${kelas.nama_kelas}</td>
+                            <td>${kelas.mata_kuliah}</td>
+                            <td>${kelas.dosen}</td>
+                            <td>${kelas.hari}</td>
+                            <td>${kelas.jam_mulai} - ${kelas.jam_selesai}</td>
+                            <td>${kelas.ruangan}</td>
+                            <td>
+                                <button class="btn-icon" onclick="editKelas('${kelas.kode_kelas}')" title="Edit">
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor">
+                                        <path d="M12 3l3 3-9 9H3v-3l9-9z"></path>
+                                    </svg>
+                                </button>
+                                <button class="btn-icon btn-danger" onclick="deleteKelas('${kelas.kode_kelas}')" title="Hapus">
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor">
+                                        <path d="M3 6h12M8 3h2M5 6v9a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6"></path>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('kelasTable').innerHTML = 
+                        '<tr><td colspan="8" class="text-center">Error memuat data: ' + error.message + '</td></tr>';
+                });
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#kelasTable tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+
+        // Open add modal
+        function openAddModal() {
+            document.getElementById('modalTitle').textContent = 'Tambah Kelas';
+            document.getElementById('kelasForm').reset();
+            document.getElementById('kelasId').value = '';
+            document.getElementById('modalForm').style.display = 'flex';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('modalForm').style.display = 'none';
+        }
+
+        // Edit kelas
+        function editKelas(kode) {
+            fetch(`api/get-kelas.php?kode_kelas=${kode}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('modalTitle').textContent = 'Edit Kelas';
+                    document.getElementById('kelasId').value = data.kode_kelas;
+                    document.getElementById('kode_kelas').value = data.kode_kelas;
+                    document.getElementById('nama_kelas').value = data.nama_kelas;
+                    document.getElementById('mata_kuliah').value = data.mata_kuliah;
+                    document.getElementById('dosen').value = data.dosen;
+                    document.getElementById('hari').value = data.hari;
+                    document.getElementById('jam_mulai').value = data.jam_mulai;
+                    document.getElementById('jam_selesai').value = data.jam_selesai;
+                    document.getElementById('ruangan').value = data.ruangan;
+                    document.getElementById('semester').value = data.semester;
+                    document.getElementById('modalForm').style.display = 'flex';
+                })
+                .catch(error => {
+                    alert('Error: ' + error.message);
+                });
+        }
+
+        // Delete kelas
+        function deleteKelas(kode) {
+            if(confirm('Apakah Anda yakin ingin menghapus data kelas ini?')) {
+                fetch('api/delete-kelas.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({kode_kelas: kode})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        alert('Data berhasil dihapus');
+                        loadKelas();
+                    } else {
+                        alert('Gagal menghapus data: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Error: ' + error.message);
+                });
+            }
+        }
+
+        // Submit form
+        document.getElementById('kelasForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            fetch('api/save-kelas.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    alert('Data berhasil disimpan');
+                    closeModal();
+                    loadKelas();
+                } else {
+                    alert('Gagal menyimpan data: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error.message);
+            });
+        });
+
+        // Load data on page load
+        loadKelas();
+    </script>
+</body>
+</html>
